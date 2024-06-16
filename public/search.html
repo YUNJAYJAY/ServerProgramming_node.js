@@ -1,13 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset='utf-8' />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API 응답 데이터</title>
+    <title>Centered Login Form with Navbar and Logo</title>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth'
+            });
+            calendar.render();
+        });
+
+        function goToSearchPage() {
+            window.location.href = "/main/search";
+        };
+        function goToMyPage() {
+            window.location.href = "/main/mypage";
+        };
+    </script>
+    <style>
+        @font-face {
+            font-family: 'Pretendard';
+            src: url('fonts/static/woff/Pretendard-Medium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: 'Pretendard', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e2e2e2;
+            margin: 0;
+            margin-left: 20px;
+            margin-right: 20px;
+            gap: 20px;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #ffffff;
+            color: white;
+            padding: 14px 0;
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .navbar-logo {
+            display: inline-block;
+            margin-left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+        }
+
+        .navbar-logo {
+            width: 200px;
+            height: auto;
+        }
+
+        .container_right {
+            display: flex;
+            flex-direction: column; /* 기본값이므로 생략 가능 */
+            justify-content: flex-start; /* 요소들을 좌측 정렬 */
+            align-items: left; /* 요소들을 세로축 기준으로 가운데 정렬 */
+            gap: 10px;
+            width: 100%;
+            height: 100%;
+            margin-top: 190px;
+        }
+
+        .container_left {
+            display: flex;
+            flex-direction: column; /* 기본값이므로 생략 가능 */
+            justify-content: flex-start; /* 요소들을 좌측 정렬 */
+            align-items: left; /* 요소들을 세로축 기준으로 가운데 정렬 */
+            gap: 10px;
+            width: 25%;
+            height: 100%;
+            margin-top: 190px;
+        }
+
+        .container_right_top {
+            display: flex;
+            flex-direction: row; /* 기본값이므로 생략 가능 */
+            justify-content: flex-start; /* 요소들을 좌측 정렬 */
+            align-items: left; /* 요소들을 세로축 기준으로 가운데 정렬 */
+            align-items: flex-start;
+            place-items: center;
+            width: 100%;
+            border-radius: 5px;
+            gap: 10px;
+        }
+
+        .container_right_down {
+            display: flex;
+            flex-wrap: wrap; /* 필요시 줄 바꿈 */
+            justify-content: flex-start; /* 왼쪽 정렬 */
+            align-items: flex-start; /* 위쪽 정렬 */
+            gap: 20px; /* 아이템 간 간격 */
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-y: auto; /* 세로 스크롤 허용 */
+            max-height: 80vh; /* 최대 높이 설정 */
+        }
+
+        #profile {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .profile-photo {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            margin: 20px;
+        }
+
+        .profile-photo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .mypage-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 4px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            width: 80px;
+            height: 30px;
+            text-align: center;
+        }
+
+        .mypage-button:hover {
+            background-color: #45a049;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .username {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .message {
+            margin: 5px 0 0;
+            font-size: 12px;
+            color: #777;
+        }
+
+        #today-schedule {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        #week-schedule {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        #submission-papers {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .search-container {
+            display: flex;
+            align-items: flex-start;
+            place-items: center;
+            border-radius: 5px;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .search-input {
+            font-family: 'Pretendard', Arial, sans-serif;
+            border: none;
+            font-size: 18px;
+            border-radius: 10px;
+            outline: none;
+            width: 90%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            height: 60px;
+            padding-left: 20px;
+
+        }
+
+        .search-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 10%;
+            height: 60px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding-right: 10px;
+
+        }
+
+        .search-button:hover {
+            background-color: #45a049;
+        }
+
+        .interest-list, .calendar {
+            width: 48%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #calendar {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 60%;
+        }
+        .announce-list {
+            /* background-color: #ffffff; */
+            width: 40%;
+            border-radius: 10px;
+            overflow-y: auto; /* 세로 스크롤을 자동으로 추가 */
+            justify-content: center;
+        }
+        
+        .result-item {
+            border-radius: 4px;
+            padding: 16px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px; /* 각 아이템의 고정 너비 설정 */
+            flex: 1 1 300px; /* 플렉스 아이템 크기 조절 */
+            box-sizing: border-box;
+            justify-content: row;
+        }
+        .search-result {
+            display: flex;
+            justify-content: row;
+            gap: 10px;
+        }
+        .bookmark-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .bookmark-button:hover {
+            background-color: #45a049;
+        }
+
+        .bookmarked {
+            background-color: #ffa500;
+        }
+
+    </style>
 </head>
 <body>
-    <div id="response">test</div>
-
-    <script src="../app.js"></script>
+    <div class="navbar">
+        <img src="img/Bridge_job_side_logo.svg" alt="" class="navbar-logo">
+    </div>
+    <div class="container_right">
+        <div class="container_right_top">
+            <input type="text" class="search-input" placeholder="채용 공고 검색...">
+            <button onclick="goToSearchPage()" class="search-button">검색</button>
+        </div>
+        <div class="container_right_down">
+            <div id="searchResult" class="search-result"></div>
+        </div>
+    </div>
+    <script>
+        async function fetchList() {
+            try {
+                const response = await fetch('/list');
+                const data = await response.json();
+    
+                const searchResultDiv = document.getElementById('searchResult');
+    
+                // `result` 배열의 각 항목을 HTML로 변환하여 표시
+                data.result.forEach(item => {
+                    const div = document.createElement('div');
+                    div.classList.add('result-item');
+    
+                    div.innerHTML = `
+                        <h3>${item.instNm}</h3>
+                        <p><strong>모집 공고:</strong> ${item.recrutPbancTtl}</p>
+                        <p><strong>모집 인원:</strong> ${item.recrutNope}명</p>
+                        <p><strong>근무 지역:</strong> ${item.workRgnNmLst}</p>
+                        <p><strong>채용 형태:</strong> ${item.hireTypeNmLst}</p>
+                        <p><strong>접수 기간:</strong> ${item.pbancBgngYmd} ~ ${item.pbancEndYmd}</p>
+                        <p><a href="${item.srcUrl}" target="_blank">자세히 보기</a></p>
+                        <button class="bookmark-button" data-id="${item.id}">즐겨찾기</button>
+                    `;
+    
+                    searchResultDiv.appendChild(div);
+    
+                    // 버튼 클릭 이벤트 처리
+                    const bookmarkButton = div.querySelector('.bookmark-button');
+                    bookmarkButton.addEventListener('click', async () => {
+                        try {
+                            const response = await fetch(`/bookmark/${item.id}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                // 필요에 따라 body에 추가 데이터 전송 가능
+                                body: JSON.stringify({
+                                    instNm: item.instNm,
+                                    recrutPbancTtl: item.recrutPbancTtl,
+                                    // 필요한 다른 데이터 추가
+                                })
+                            });
+                            const result = await response.json();
+                            if (response.ok) {
+                                console.log('즐겨찾기에 추가되었습니다.');
+                                // 즐겨찾기 추가 완료 시, UI 업데이트 로직 추가 가능
+                            } else {
+                                console.error('즐겨찾기 추가 실패:', result.error);
+                            }
+                        } catch (error) {
+                            console.error('API 요청 에러:', error);
+                        }
+                    });
+                });
+            } catch (error) {
+                console.error('API 요청 에러:', error);
+            }
+        }
+    
+        fetchList();
+    </script>
 </body>
 </html>

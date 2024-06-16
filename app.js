@@ -1,16 +1,20 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const mysql = require('mysql2');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const app = express();
 const axios = require('axios');
-const baseurl_api = "https://apis.data.go.kr/1051000/recruitment";
-const encodedApiKey = "6EpfymZ48STEuIlzDBhHLnuFg%2FdzZg4ghxrBHx5JNToK8G%2FKe3sa%2FfOV18r11cII5%2FTZhj6fZqac0wTg03a94Q%3D%3D"
+require('dotenv').config();
 
+const baseUrl = process.env.BASE_URL;
+const apiKey = process.env.API_KEY;
+app.use(cors());
 // 정적 파일을 제공하는 미들웨어 설정
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json())
+
 
 const db = mysql.createConnection({
   host: 'localhost',
@@ -27,6 +31,7 @@ db.connect(err => {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
+
 
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/login.html'));
@@ -61,42 +66,55 @@ app.post('/register', (req, res) => {
       res.status(201).send('User registered');
   });
 });
-app.get('/calendar', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/daygrid-views.html'));
-});
+
 app.get('/main', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/main.html'));
 });
 app.get('/main/search', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/search.html'));
+  res.sendFile(path.join(__dirname, 'public', 'search.html'));
 });
 app.get('/main/mypage', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/mypage.html'));
 });
 
 
-async function getlist() {
-  try {
-    const url = `${baseurl_api}/list`;
-    const headers = {
-      'Context-Type': 'application/json',
-    };
+// async function getlist() {
+//   try {
+//     const url = `${baseurl_api}/list`;
+//     const headers = {
+//       'Context-Type': 'application/json',
+//     };
 
-    const response = await axios.get(url, {
-      params: {
-        serviceKey: `${encodedApiKey}`,
-        pblntInstCd: 'C0860'
-      },
-      headers: headers
-    });
-    const responseDiv = document.getElementById('response');
-    responseDiv.innerHTML = JSON.stringify(response.data);
-    console.log("응답 데이터:", response.data);
+//     const response = await axios.get(url, {
+//       params: {
+//         serviceKey: `${encodedApiKey}`
+//       },
+//       headers: headers
+//     });
+//     const responseDiv = document.getElementById('response');
+//     responseDiv.innerHTML = JSON.stringify(response.data);
+//     console.log("응답 데이터:", response.data);
+//   } catch (error) {
+//     console.error("API 요청 에러:", error.message);
+//   }
+// }
+// getlist();
+
+app.get('/list', async (req, res) => {
+  try {
+      const url = `${baseUrl}/list`;
+      const response = await axios.get(url, {
+          params: {
+              serviceKey: apiKey
+          }
+      });
+
+      res.send(response.data);
   } catch (error) {
-    console.error("API 요청 에러:", error.message);
+      console.error('API 요청 에러:', error.message);
+      res.status(500).send('API 요청 중 에러가 발생했습니다.');
   }
-}
-getlist();
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
